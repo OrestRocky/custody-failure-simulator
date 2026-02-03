@@ -1,7 +1,8 @@
+cat > cli.py << 'PY'
 from simulator.engine import CustodySimulator, TimelineEvent
 from simulator.events import FailureEvent
 
-if __name__ == "__main__":
+def main() -> None:
     sim = CustodySimulator()
     sim.state.mark_verified(day=0)
 
@@ -18,3 +19,8 @@ if __name__ == "__main__":
     print("\n=== LOG ===")
     for line in sim.log:
         print("-", line)
+
+if __name__ == "__main__":
+    main()
+PY
+
