@@ -38,7 +38,8 @@ cd custody-failure-simulator
 pip install -r requirements.txt
 Run a sample scenario
 python -m cfs run --scenario examples/basic_failure.yaml --seed 42
-🧪 Usage
+
+Usage
 Run simulator
 cfs run \
   --scenario examples/timeout.yaml \
@@ -50,7 +51,8 @@ Option	Description
 --seed	Deterministic random seed
 --out	Output report path
 --verbose	Extended logs
-🧩 Scenario Format (YAML)
+
+ Scenario Format (YAML)
 name: custody-timeout
 steps:
   - actor: custodian
@@ -64,7 +66,8 @@ steps:
 
   - actor: reconciliation
     action: detect_mismatch
-🏗 Architecture
+
+ Architecture
 src/
  ├── engine/        # Simulation engine
  ├── actors/        # Custodian, broker, ledger, network
@@ -75,23 +78,28 @@ src/
 examples/
 tests/
 docs/
-🧪 Testing
+
+ Testing
 pytest
-🔐 Safety Disclaimer
+
+ Safety Disclaimer
 This project is a simulation and educational tool only.
 It must NOT be used to operate, exploit, or bypass real custody or financial systems.
-🛣 Roadmap
+
+ Roadmap
  More predefined failure templates
  Visual timeline reports
  Docker support
  CI (lint + test)
  Scenario fuzzing
-🤝 Contributing
+
+ Contributing
 Fork the repo
 Create a feature branch
 Add tests where applicable
 Open a PR with a clear description
-📄 License
+
+ License
 MIT License
 
----
+
