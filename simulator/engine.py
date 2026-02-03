@@ -1,4 +1,3 @@
-cat > simulator/engine.py <<'PY'
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -84,3 +83,4 @@ class CustodySimulator:
             self.apply(t.day, t.event)
         return self.state
 PY
+
