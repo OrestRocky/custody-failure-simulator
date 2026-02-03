@@ -1,7 +1,8 @@
+cat > simulator/engine.py <<'PY'
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List
 
 from simulator.state import CustodyState, FailureMode
 from simulator.events import FailureEvent
@@ -35,14 +36,16 @@ class CustodySimulator:
             s.exposure += 0.01 * (days_since_verify / 30)
 
         # Event impacts (kept simple but truthful)
-        if event in {FailureEvent.PHISHING, FailureEvent.INFOSTEALER, FailureEvent.CLOUD_SYNC_LEAK, FailureEvent.SCREENSHOT_SEED}:
-            # Silent compromise increases exposure immediately,
-            # but control may not drop until attacker acts.
+        if event in {
+            FailureEvent.PHISHING,
+            FailureEvent.INFOSTEALER,
+            FailureEvent.CLOUD_SYNC_LEAK,
+            FailureEvent.SCREENSHOT_SEED,
+        }:
             s.exposure += 0.35
             self.log.append(f"Day {day}: leakage vector introduced ({event}). Exposure ↑.")
 
         elif event in {FailureEvent.DEVICE_THEFT, FailureEvent.DEVICE_FAILURE}:
-            # If custody was device-dependent, control collapses.
             s.assumptions["owner_has_device_access"] = False
             s.control -= 0.45
             self.log.append(f"Day {day}: device disruption ({event}). Control ↓.")
@@ -59,7 +62,6 @@ class CustodySimulator:
             self.log.append(f"Day {day}: stress-driven operational error. Control ↓, Exposure ↑.")
 
         elif event == FailureEvent.DEATH_NO_SUCCESSION:
-            # Human discontinuity without succession is terminal loss.
             if not s.assumptions.get("succession_exists", False):
                 s.control = 0.0
                 s.recoverable = False
@@ -67,7 +69,6 @@ class CustodySimulator:
                 self.log.append(f"Day {day}: human discontinuity without succession. Terminal LOSS.")
 
         # Catastrophic conversion rule:
-        # if exposure is high enough, assume attacker eventually acts -> control collapses (leakage becomes loss-of-control).
         if s.failure_mode == FailureMode.NONE and s.exposure >= 0.85:
             s.control = 0.0
             s.recoverable = False
@@ -82,3 +83,4 @@ class CustodySimulator:
                 break
             self.apply(t.day, t.event)
         return self.state
+PY
