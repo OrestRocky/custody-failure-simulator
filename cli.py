@@ -1,4 +1,3 @@
-cat > cli.py << 'PY'
 from simulator.engine import CustodySimulator, TimelineEvent
 from simulator.events import FailureEvent
 
@@ -23,4 +22,5 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 PY
+
 
